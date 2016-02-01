@@ -1,0 +1,19 @@
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file original="global" source-language="en" target-language="fr" datatype="plaintext">
+        <header />
+        <body>
+            <trans-unit id="ldap-entries">
+                <source><![CDATA[/^Ldap entries:$/]]></source>
+                <target><![CDATA[/^Entrée Ldap:$/]]></target>
+            </trans-unit>
+            <trans-unit id="ldap-request-should-return-results">
+                <source><![CDATA[/^Ldap request "(?P<request>[^"]+)" should return (?P<integer>\d+) results$/]]></source>
+                <target><![CDATA[/^La requête Ldap "(?P<request>[^"]+)" doit retourner (?P<integer>\d+) résultats$/]]></target>
+            </trans-unit>
+            <trans-unit id="the-objectclass-with-cn-should-exist-in-ldap">
+                <source><![CDATA[/^The "(?P<objectclass>[^"]+)" with cn "(?P<cn>[^"]+)" should exist in Ldap$/]]></source>
+                <target><![CDATA[/^"(?P<objectclass>[^"]+)" avec cn "(?P<cn>[^"]+)" doit exister dans Ldap$/]]></target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
