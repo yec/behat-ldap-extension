@@ -4,7 +4,7 @@
     "type": "library",
     "description": "Behat Ldap Extension",
     "require": {
-        "symfony/ldap": "~2.8@stable",
+        "symfony/ldap": "dev-master",
         "behat/behat": "~3.0@stable"
     },
     "autoload": {

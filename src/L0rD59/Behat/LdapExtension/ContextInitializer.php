@@ -3,7 +3,7 @@ namespace L0rD59\Behat\LdapExtension;
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\Initializer\ContextInitializer as InitializerInterface;
-use Symfony\Component\Ldap\LdapClient;
+use Symfony\Component\Ldap\Ldap;
 
 class ContextInitializer implements InitializerInterface
 {
@@ -13,10 +13,10 @@ class ContextInitializer implements InitializerInterface
   protected $purge_before_scenario;
   protected $authentication;
   /**
-   * @param LdapClient $client
+   * @param Ldap $client
    * @param bool   $purgeBeforeScenario
    */
-  public function __construct(LdapClient $client, $rootDn, $bind_before_scenario, $purge_before_scenario, $authentication)
+  public function __construct(Ldap $client, $rootDn, $bind_before_scenario, $purge_before_scenario, $authentication)
   {
     $this->client = $client;
     $this->rootDn = $rootDn;

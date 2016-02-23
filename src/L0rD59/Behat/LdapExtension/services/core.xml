@@ -4,19 +4,24 @@
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="behat.ldap.client.class">Symfony\Component\Ldap\LdapClient</parameter>
+        <parameter key="behat.ldap.client.class">Symfony\Component\Ldap\Ldap</parameter>
         <parameter key="behat.ldap.context.initializer.class">L0rD59\Behat\LdapExtension\ContextInitializer</parameter>
     </parameters>
 
     <services>
 
         <service id="behat.ldap.client" class="%behat.ldap.client.class%">
-            <argument>%behat.ldap.client.host%</argument>
-            <argument>%behat.ldap.client.port%</argument>
-            <argument>%behat.ldap.client.version%</argument>
-            <argument>%behat.ldap.client.useSsl%</argument>
-            <argument>%behat.ldap.client.useStartTls%</argument>
-            <argument>%behat.ldap.client.optReferrals%</argument>
+            <factory class="%behat.ldap.client.class%" method="create"></factory>
+            <argument>ext_ldap</argument>
+            <argument type="collection">
+                <argument key="host">%behat.ldap.client.host%</argument>
+                <argument key="port">%behat.ldap.client.port%</argument>
+                <argument key="version">%behat.ldap.client.version%</argument>
+                <argument key="useSsl">%behat.ldap.client.useSsl%</argument>
+                <argument key="useStartTls">%behat.ldap.client.useStartTls%</argument>
+                <argument key="optReferrals">%behat.ldap.client.optReferrals%</argument>
+            </argument>
+
         </service>
 
         <service id="behat.ldap.context.initializer" class="%behat.ldap.context.initializer.class%">

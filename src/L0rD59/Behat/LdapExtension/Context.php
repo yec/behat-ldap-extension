@@ -5,12 +5,13 @@ namespace L0rD59\Behat\LdapExtension;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Context\TranslatableContext;
 use Behat\Gherkin\Node\TableNode;
-use Symfony\Component\Ldap\LdapClient;
+use Symfony\Component\Ldap\Entry;
+use Symfony\Component\Ldap\Ldap;
 
 class Context implements TranslatableContext, SnippetAcceptingContext
 {
   /**
-   * @var LdapClient
+   * @var Ldap
    */
   protected $client;
 
@@ -42,13 +43,13 @@ class Context implements TranslatableContext, SnippetAcceptingContext
   /**
    * Sets configuration of the context.
    *
-   * @param LdapClient  $client client to use for API.
+   * @param Ldap  $client client to use for API.
    * @param string  $rootDn dn root entry.
    * @param boolean  $bind_before_scenario dn root entry.
    * @param boolean  $purge_before_scenario dn root entry.
    * @param array|null  $authentication ['rdn','password'].
    */
-  public function setConfiguration(LdapClient $client, $rootDn, $bind_before_scenario, $purge_before_scenario, $authentication)
+  public function setConfiguration(Ldap $client, $rootDn, $bind_before_scenario, $purge_before_scenario, $authentication)
   {
     $this->client = $client;
     $this->rootDn = $rootDn;
@@ -82,7 +83,8 @@ class Context implements TranslatableContext, SnippetAcceptingContext
   public function ldapEntries(TableNode $entries)
   {
     foreach ($entries->getHash() as $entry) {
-      $this->client->add('cn'.'='.$entry['cn'].','.$this->rootDn, $entry);
+      $ldapEntry = new Entry('cn'.'='.$entry['cn'].','.$this->rootDn, $entry);
+      $this->client->getEntryManager()->add($ldapEntry);
     }
   }
 
@@ -91,9 +93,9 @@ class Context implements TranslatableContext, SnippetAcceptingContext
    */
   public function ldapRequestShouldReturnResults($request, $count)
   {
-    if(is_null($results = $this->client->find($this->rootDn, $request)) || count($results['count']) != $count )
+    if(is_null($results = $this->client->query($this->rootDn, $request)->execute()) || $results->count() != $count )
     {
-      throw new \Exception('Ldap request "'.$request.'" has return '.count($results['count']).'result(s)');
+      throw new \Exception('Ldap request "'.$request.'" has return '.$results->count().'result(s)');
     }
   }
 
@@ -102,14 +104,16 @@ class Context implements TranslatableContext, SnippetAcceptingContext
    */
   public function theObjectclassWithCnShouldExistInLdap($objectclass, $cn)
   {
-    if(is_null($results = $this->client->find($this->rootDn, '(cn='.$cn.')')))
+    if(is_null($results = $this->client->query($this->rootDn, '(cn='.$cn.')')->execute()))
     {
       throw new \Exception('Unknow entry cn='.$cn.' in Ldap');
     }
 
-    if($results[0]['objectclass'][0] != $objectclass)
+    $results = $results->toArray();
+
+    if($results[0]->getAttribute('objectclass')[0] != $objectclass)
     {
-      throw new \Exception('The entry cn='.$cn.' is not a '.$objectclass.' ('.$results[0]['objectclass'][0].')');
+      throw new \Exception('The entry cn='.$cn.' is not a '.$objectclass.' ('.$results[0]->getAttribute('objectclass')[0].')');
     }
   }
 }
