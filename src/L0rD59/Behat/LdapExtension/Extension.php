@@ -35,10 +35,13 @@ class Extension implements ExtensionInterface
       ->children()
         ->scalarNode('host')->defaultValue('localhost')->end()
         ->integerNode('port')->defaultValue(389)->end()
-        ->integerNode('version')->defaultValue(3)->end()
-        ->booleanNode('useSsl')->defaultValue(false)->end()
-        ->booleanNode('useStartTls')->defaultValue(false)->end()
-        ->booleanNode('optReferrals')->defaultValue(false)->end()
+        ->scalarNode('encryption')->defaultValue('none')->end()
+        ->arrayNode('options')
+          ->children()
+            ->integerNode('protocol_version')->defaultValue(3)->end()
+            ->booleanNode('referrals')->defaultValue(false)->end()
+          ->end()
+        ->end()
         ->booleanNode('bind_before_scenario')->defaultValue(true)->end()
         ->booleanNode('purge_before_scenario')->defaultValue(false)->end()
         ->arrayNode('authentication')
@@ -62,10 +65,8 @@ class Extension implements ExtensionInterface
     $this->loadContextInitializer($container);
     $container->setParameter('behat.ldap.client.host', $config['host']);
     $container->setParameter('behat.ldap.client.port', $config['port']);
-    $container->setParameter('behat.ldap.client.version', $config['version']);
-    $container->setParameter('behat.ldap.client.useSsl', $config['useSsl']);
-    $container->setParameter('behat.ldap.client.useStartTls', $config['useStartTls']);
-    $container->setParameter('behat.ldap.client.optReferrals', $config['optReferrals']);
+    $container->setParameter('behat.ldap.client.encryption', $config['encryption']);
+    $container->setParameter('behat.ldap.client.options', $config['options']);
     $container->setParameter('behat.ldap.context.bind_before_scenario', $config['bind_before_scenario']);
     $container->setParameter('behat.ldap.context.purge_before_scenario', $config['purge_before_scenario']);
     $container->setParameter('behat.ldap.context.authentication', $config['authentication']);

@@ -8,9 +8,10 @@ default:
       rootDn: "dc=basedn" # require
       host: 'localhost' #default
       port: 389 #default
-      version: 3 #default
-      useSsl: false #default
-      useStartTls: false #default
+      encryption: 'none' #default
+      options:
+        protocol_version : 3 #default
+        referrals: ~ # default
       bind_before_scenario: true #default
       purge_before_scenario: false #default
       authentication:

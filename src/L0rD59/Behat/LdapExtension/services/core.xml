@@ -16,10 +16,8 @@
             <argument type="collection">
                 <argument key="host">%behat.ldap.client.host%</argument>
                 <argument key="port">%behat.ldap.client.port%</argument>
-                <argument key="version">%behat.ldap.client.version%</argument>
-                <argument key="useSsl">%behat.ldap.client.useSsl%</argument>
-                <argument key="useStartTls">%behat.ldap.client.useStartTls%</argument>
-                <argument key="optReferrals">%behat.ldap.client.optReferrals%</argument>
+                <argument key="encryption">%behat.ldap.client.encryption%</argument>
+                <argument key="options">%behat.ldap.client.options%</argument>
             </argument>
 
         </service>

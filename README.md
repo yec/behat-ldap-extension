@@ -1,11 +1,9 @@
 Behat Ldap Extension
 ===================
 
-STILL IN DEVELOPMENT
-
 Demo
 ---------------
-Require Ldap server.
+Require Ldap server and adapt your configuration in `fixtures/behat.yml`.
 
 `php vendor/bin/behat -c fixtures/behat.yml`
 
@@ -26,8 +24,7 @@ default:
       host: 'localhost' #default
       port: 389 #default
       version: 3 #default
-      useSsl: false #default
-      useStartTls: false #default
+      encryption: 'none' #default
       bind_before_scenario: true #default
       purge_before_scenario: false #default
       authentication:
