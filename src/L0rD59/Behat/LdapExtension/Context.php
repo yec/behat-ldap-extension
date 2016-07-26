@@ -116,4 +116,12 @@ class Context implements TranslatableContext, SnippetAcceptingContext
       throw new \Exception('The entry cn='.$cn.' is not a '.$objectclass.' ('.$results[0]->getAttribute('objectclass')[0].')');
     }
   }
+
+  public function getClient() {
+    return $this->client;
+  }
+
+  public function getRootDn() {
+    return $this->rootDn;
+  }
 }
